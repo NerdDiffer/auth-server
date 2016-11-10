@@ -1,0 +1,42 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "ava",
+    "start": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "Rafael Espinoza <rafael@rafaelespinoza.com> (www.rafaelespinoza.com)",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "debug": "^2.3.2",
+    "nodemon": "^1.11.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "ava": {
+    "files": [
+      "**/*.test.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "concurrency": 5,
+    "failFast": false,
+    "verbose": true
+  }
+}
