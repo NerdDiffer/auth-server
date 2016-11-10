@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const checkUserParams = require('./utils/checkUserParams');
 const users = require('./users');
 
 const router = Router();
@@ -8,6 +9,9 @@ router.get('/ping', (req, res) => {
   res.json(msg);
 });
 
-router.post('/signup', users.createNewUser);
+router.post('/signup',
+  checkUserParams,
+  users.createNewUser
+);
 
 module.exports = router;
