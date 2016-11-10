@@ -1,5 +1,6 @@
 const debug = require('debug')('auth-service');
 const client = require('../client');
+const { isNameValid, isPasswordValid } = require('../utils/validation');
 
 // Redis key schema
 const NEXT_ID = 'User:NEXT_ID';
@@ -11,8 +12,26 @@ const User = function (name, password) {
   this.password = password;
 };
 
+User.validate = ({ name, password }) => (
+  client.hexistsAsync(NAME_TO_ID, name)
+    .then(result => {
+      const exists = !!result;
+
+      if (exists) {
+        throw Error ('Name is already taken');
+      }
+
+      if (!isNameValid(name) || !isPasswordValid(password)) {
+        throw Error ('Name or password is not valid');
+      } else {
+        return true;
+      }
+    })
+);
+
 User.save = (name, password) => (
-  client.incrAsync(NEXT_ID)
+  User.validate({ name, password })
+    .then(() => client.incrAsync(NEXT_ID))
     .then(nextUserId => {
       debug('--- incremented NEXT_ID: %d', nextUserId)
       const user = new User(name, password);
