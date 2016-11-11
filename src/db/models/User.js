@@ -56,7 +56,7 @@ User.save = (name, password) => (
 );
 
 User.findById = userIdKey => (
-  client.hgetallAsync(userIdKey)
+  client.hgetallAsync(`${ID_TEMPLATE}:${userIdKey}`)
 );
 
 User.findByName = name => (
