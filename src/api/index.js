@@ -9,7 +9,7 @@ const router = Router();
 
 router.use(corsForClient);
 
-const requireLogin = passportService.authenticate('local', {
+const authenticateCredentials = passportService.authenticate('local', {
   session: false
 });
 
@@ -21,13 +21,13 @@ router.get('/ping', (req, res) => {
 router.post('/register',
   checkUserParams,
   users.createNewUser,
-  requireLogin,
+  authenticateCredentials,
   tokens.sendToken
 );
 
 router.post('/login',
   checkUserParams,
-  requireLogin,
+  authenticateCredentials,
   tokens.sendToken
 );
 
