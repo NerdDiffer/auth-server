@@ -8,7 +8,7 @@ module.exports.createNewUser = (req, res, next) => {
   return User.save(name, password)
     .then(user => {
       debug('new user: %o', user);
-      res.json({ name: user.name });
+      next();
     })
     .catch(err => {
       const msg = err.toString();

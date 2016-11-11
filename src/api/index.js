@@ -21,6 +21,7 @@ router.get('/ping', (req, res) => {
 router.post('/register',
   checkUserParams,
   users.createNewUser,
+  requireLogin,
   tokens.sendToken
 );
 
