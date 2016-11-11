@@ -1,6 +1,7 @@
 const debug = require('debug')('auth-service');
 const client = require('../client');
 const { isNameValid, isPasswordValid } = require('../utils/validation');
+const { encrypt } = require('../../services/crypt');
 
 // Redis key schema
 const NEXT_ID = 'User:NEXT_ID';
@@ -9,8 +10,12 @@ const NAME_TO_ID = 'User:NAME_TO_ID';
 
 const User = function (name, password) {
   this.name = name;
-  this.password = password;
+  this.password = encrypt(password);
 };
+
+User.arePasswordsTheSame = (plaintext, encryptedPassword) => (
+  encrypt(plaintext) === encryptedPassword
+);
 
 User.validate = ({ name, password }) => (
   client.hexistsAsync(NAME_TO_ID, name)
