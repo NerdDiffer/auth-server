@@ -7,6 +7,9 @@ const client = redis.createClient();
 
 client.on('connect', () => debug('Redis client is connected'));
 client.on('ready', () => debug('Redis client is ready'));
-client.on('error', err => debug('Redis client error: %o', err));
+client.on('error', err => {
+  debug('Redis client error: %o', err)
+  throw err;
+});
 
 module.exports = client;
